@@ -1,5 +1,6 @@
 package com.jpg.drone_tracker.application.component.drone.service;
 
+import com.jpg.drone_tracker.application.component.drone.api.exception.DroneSerialAlreadyExistsException;
 import com.jpg.drone_tracker.application.component.drone.domain.Drone;
 import com.jpg.drone_tracker.application.component.drone.domain.DroneState;
 import com.jpg.drone_tracker.application.component.drone.repository.DroneRepository;
@@ -18,7 +19,7 @@ public class DroneService {
     @Transactional
     public Drone registerDrone(RegisterDroneCommand command) {
         if (droneRepository.findBySerialNumber(command.serialNumber()).isPresent()) {
-            throw new IllegalArgumentException("drone serial number already exists");
+            throw new DroneSerialAlreadyExistsException(command.serialNumber());
         }
         return droneRepository.save(new Drone(
                 command.serialNumber(),
