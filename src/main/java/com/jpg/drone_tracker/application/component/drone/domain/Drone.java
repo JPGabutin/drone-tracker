@@ -18,6 +18,7 @@ import jakarta.validation.constraints.Size;
 
 import com.jpg.drone_tracker.application.component.medication.domain.Medication;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +52,10 @@ public class Drone {
     @Column(nullable = false, length = 20)
     private DroneState state;
 
+    @NotNull
+    @Column(nullable = false)
+    private Instant stateChangedAt;
+
     @OneToMany(mappedBy = "drone", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DroneMedication> loadedMedications = new ArrayList<>();
 
@@ -62,6 +67,7 @@ public class Drone {
         this.model = model;
         this.batteryCapacity = batteryCapacity;
         this.state = state;
+        this.stateChangedAt = Instant.now();
     }
 
     public UUID getId() {
@@ -88,6 +94,10 @@ public class Drone {
         return state;
     }
 
+    public Instant getStateChangedAt() {
+        return stateChangedAt;
+    }
+
     public List<DroneMedication> getLoadedMedications() {
         return Collections.unmodifiableList(loadedMedications);
     }
@@ -110,5 +120,6 @@ public class Drone {
 
     public void setState(DroneState state) {
         this.state = state;
+        this.stateChangedAt = Instant.now();
     }
 }
