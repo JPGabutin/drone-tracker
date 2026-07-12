@@ -1,0 +1,218 @@
+{
+  "info": {
+    "_postman_id": "82e61c22-1f8e-4db6-88d9-8a15d3c4f88f",
+    "name": "drone-tracker",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21149233",
+    "_collection_link": "https://go.postman.co/collection/21149233-82e61c22-1f8e-4db6-88d9-8a15d3c4f88f?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Register Drone",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"serialNumber\": \"DRONE-20260711-001\",\n    \"model\": \"CRUISERWEIGHT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/drones",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "drones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Start Loading",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"medicationCode\": \"MED_1\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/drones/DRONE-20260711-001/loading",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "drones",
+            "DRONE-20260711-001",
+            "loading"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"http://localhost:8080/api/drones/DRONE-20260711-001/loading\" \\\n    -H \"Content-Type: application/json\" \\\n    -d '{\n      \"medicationCode\": \"MED_1\"\n    }'\n"
+      },
+      "response": []
+    },
+    {
+      "name": "Complete Loading",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/drones/DRONE-20260711-001/loading/complete",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "drones",
+            "DRONE-20260711-001",
+            "loading",
+            "complete"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"http://localhost:8080/api/drones/DRONE-20260711-001/loading/complete\" \\\n    -H \"Content-Type: application/json\"\n"
+      },
+      "response": []
+    },
+    {
+      "name": "List Drone Loaded Medication",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/drones/DRONE-20260711-001/medications",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "drones",
+            "DRONE-20260711-001",
+            "medications"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"http://localhost:8080/api/drones/DRONE-20260711-001/medications\" \\\n    -H \"Accept: application/json\"\n"
+      },
+      "response": []
+    },
+    {
+      "name": "Check Drone Availability",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/drones/DRONE-20260711-001/availability",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "drones",
+            "DRONE-20260711-001",
+            "availability"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"http://localhost:8080/api/drones/DRONE-20260711-001/availability\" \\\n    -H \"Accept: application/json\"\n"
+      },
+      "response": []
+    },
+    {
+      "name": "Check Drone Battery",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/drones/DRONE-20260711-001/battery",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "drones",
+            "DRONE-20260711-001",
+            "battery"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"http://localhost:8080/api/drones/DRONE-20260711-001/battery\" \\\n    -H \"Accept: application/json\"\n"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    }
+  ]
+}
