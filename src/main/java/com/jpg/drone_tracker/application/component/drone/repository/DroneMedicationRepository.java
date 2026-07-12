@@ -10,5 +10,7 @@ public interface DroneMedicationRepository extends JpaRepository<DroneMedication
 
     List<DroneMedication> findAllByDrone_Id(UUID droneId);
 
+    boolean existsByDrone_IdAndMedication_Code(UUID droneId, String medicationCode);
+
     void deleteAllByDrone_Id(UUID droneId);
 }

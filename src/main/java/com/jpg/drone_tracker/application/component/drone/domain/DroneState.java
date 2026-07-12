@@ -6,5 +6,16 @@ public enum DroneState {
     LOADED,
     DELIVERING,
     DELIVERED,
-    RETURNING
+    RETURNING;
+
+    public boolean canTransitionTo(DroneState nextState) {
+        return switch (this) {
+            case IDLE -> nextState == LOADING;
+            case LOADING -> nextState == LOADED;
+            case LOADED -> nextState == DELIVERING;
+            case DELIVERING -> nextState == DELIVERED;
+            case DELIVERED -> nextState == RETURNING;
+            case RETURNING -> nextState == IDLE;
+        };
+    }
 }
