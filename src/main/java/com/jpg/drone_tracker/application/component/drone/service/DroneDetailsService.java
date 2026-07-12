@@ -36,7 +36,7 @@ public class DroneDetailsService {
     @Transactional(readOnly = true)
     public boolean isAvailableForLoading(String droneSerialNumber) {
         Drone drone = findDroneWithLoadedMedications(droneSerialNumber);
-        return drone.getState() == DroneState.IDLE
+        return (drone.getState() == DroneState.IDLE || drone.getState() == DroneState.LOADING)
                 && drone.getBatteryCapacity() >= MIN_BATTERY_FOR_LOADING
                 && drone.getCurrentLoadWeight() < drone.getWeightLimit();
     }

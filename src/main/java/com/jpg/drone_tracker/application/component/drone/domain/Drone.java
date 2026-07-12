@@ -114,6 +114,10 @@ public class Drone {
         return loadedMedication;
     }
 
+    public void clearLoadedMedications() {
+        loadedMedications.clear();
+    }
+
     public void setBatteryCapacity(int batteryCapacity) {
         this.batteryCapacity = batteryCapacity;
     }

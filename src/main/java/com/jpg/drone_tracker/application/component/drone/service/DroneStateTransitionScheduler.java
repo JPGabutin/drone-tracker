@@ -40,11 +40,12 @@ public class DroneStateTransitionScheduler {
 
     private void advanceDroneState(Drone drone) {
         drone.getState().nextTimedState().ifPresent(nextState -> {
-            drone.setState(nextState);
-
             if (nextState == DroneState.RETURNING) {
+                drone.clearLoadedMedications();
                 drone.setBatteryCapacity(Math.max(0, drone.getBatteryCapacity() - 25));
             }
+
+            drone.setState(nextState);
 
             droneRepository.save(drone);
         });
