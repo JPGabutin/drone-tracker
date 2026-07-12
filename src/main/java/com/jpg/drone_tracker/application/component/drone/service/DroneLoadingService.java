@@ -31,15 +31,11 @@ public class DroneLoadingService {
 
     @Transactional
     public Drone startLoading(LoadDroneMedicationCommand command) {
-        Drone drone = droneRepository.findBySerialNumber(command.droneSerialNumber())
+        Drone drone = droneRepository.findBySerialNumberWithLoadedMedications(command.droneSerialNumber())
                 .orElseThrow(() -> new DroneLoadingException("drone not found"));
 
         if (drone.getBatteryCapacity() < MIN_BATTERY_FOR_LOADING) {
             throw new DroneLoadingException("drone battery is below loading threshold");
-        }
-
-        if (!drone.getState().canTransitionTo(DroneState.LOADING) && drone.getState() != DroneState.LOADING) {
-            throw new DroneLoadingException("drone is not available for loading");
         }
 
         Medication medication = medicationRepository.findByCode(command.medicationCode())
@@ -47,6 +43,10 @@ public class DroneLoadingService {
 
         if (droneMedicationRepository.existsByDrone_IdAndMedication_Code(drone.getId(), medication.getCode())) {
             return droneRepository.save(drone);
+        }
+
+        if (!drone.getState().canTransitionTo(DroneState.LOADING) && drone.getState() != DroneState.LOADING) {
+            throw new DroneLoadingException("drone is not available for loading");
         }
 
         if (drone.getCurrentLoadWeight() + medication.getWeight() > drone.getWeightLimit()) {
@@ -60,7 +60,7 @@ public class DroneLoadingService {
 
     @Transactional
     public Drone completeLoading(String droneSerialNumber) {
-        Drone drone = droneRepository.findBySerialNumber(droneSerialNumber)
+        Drone drone = droneRepository.findBySerialNumberWithLoadedMedications(droneSerialNumber)
                 .orElseThrow(() -> new DroneLoadingException("drone not found"));
 
         if (!drone.getState().canTransitionTo(DroneState.LOADED)) {

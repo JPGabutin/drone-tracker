@@ -44,7 +44,8 @@ class DroneLoadingServiceTest {
         Medication medication = new Medication("med1", 250, "MED_1", "images/med1.png");
         LoadDroneMedicationCommand command = new LoadDroneMedicationCommand(drone.getSerialNumber(), medication.getCode());
 
-        when(droneRepository.findBySerialNumber(command.droneSerialNumber())).thenReturn(Optional.of(drone));
+        when(droneRepository.findBySerialNumberWithLoadedMedications(command.droneSerialNumber()))
+                .thenReturn(Optional.of(drone));
         when(medicationRepository.findByCode(command.medicationCode())).thenReturn(Optional.of(medication));
         when(droneMedicationRepository.existsByDrone_IdAndMedication_Code(drone.getId(), medication.getCode()))
                 .thenReturn(false);
@@ -65,7 +66,8 @@ class DroneLoadingServiceTest {
         drone.loadMedication(medication);
         LoadDroneMedicationCommand command = new LoadDroneMedicationCommand(drone.getSerialNumber(), medication.getCode());
 
-        when(droneRepository.findBySerialNumber(command.droneSerialNumber())).thenReturn(Optional.of(drone));
+        when(droneRepository.findBySerialNumberWithLoadedMedications(command.droneSerialNumber()))
+                .thenReturn(Optional.of(drone));
         when(medicationRepository.findByCode(command.medicationCode())).thenReturn(Optional.of(medication));
         when(droneMedicationRepository.existsByDrone_IdAndMedication_Code(drone.getId(), medication.getCode()))
                 .thenReturn(true);
@@ -83,7 +85,8 @@ class DroneLoadingServiceTest {
         Drone drone = new Drone("DRONE-20260711-003", DroneModel.HEAVYWEIGHT, 24, DroneState.IDLE);
         LoadDroneMedicationCommand command = new LoadDroneMedicationCommand(drone.getSerialNumber(), "MED_1");
 
-        when(droneRepository.findBySerialNumber(command.droneSerialNumber())).thenReturn(Optional.of(drone));
+        when(droneRepository.findBySerialNumberWithLoadedMedications(command.droneSerialNumber()))
+                .thenReturn(Optional.of(drone));
 
         assertThrows(DroneLoadingException.class, () -> droneLoadingService.startLoading(command));
         verify(droneRepository, never()).save(any(Drone.class));
@@ -97,7 +100,8 @@ class DroneLoadingServiceTest {
         drone.loadMedication(existingMedication);
         LoadDroneMedicationCommand command = new LoadDroneMedicationCommand(drone.getSerialNumber(), newMedication.getCode());
 
-        when(droneRepository.findBySerialNumber(command.droneSerialNumber())).thenReturn(Optional.of(drone));
+        when(droneRepository.findBySerialNumberWithLoadedMedications(command.droneSerialNumber()))
+                .thenReturn(Optional.of(drone));
         when(medicationRepository.findByCode(command.medicationCode())).thenReturn(Optional.of(newMedication));
         when(droneMedicationRepository.existsByDrone_IdAndMedication_Code(drone.getId(), newMedication.getCode()))
                 .thenReturn(false);
@@ -111,7 +115,8 @@ class DroneLoadingServiceTest {
         Drone drone = new Drone("DRONE-20260711-005", DroneModel.HEAVYWEIGHT, 50, DroneState.LOADING);
         drone.loadMedication(new Medication("med1", 250, "MED_1", "images/med1.png"));
 
-        when(droneRepository.findBySerialNumber(drone.getSerialNumber())).thenReturn(Optional.of(drone));
+        when(droneRepository.findBySerialNumberWithLoadedMedications(drone.getSerialNumber()))
+                .thenReturn(Optional.of(drone));
         when(droneRepository.save(any(Drone.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Drone completedDrone = droneLoadingService.completeLoading(drone.getSerialNumber());

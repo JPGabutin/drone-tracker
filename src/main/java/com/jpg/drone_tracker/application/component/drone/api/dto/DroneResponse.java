@@ -10,6 +10,7 @@ public record DroneResponse(
         String serialNumber,
         DroneModel model,
         int weightLimit,
+        int currentLoadWeight,
         int batteryCapacity,
         DroneState state
 ) {

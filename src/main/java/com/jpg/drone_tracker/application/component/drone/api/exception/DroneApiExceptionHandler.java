@@ -1,5 +1,6 @@
 package com.jpg.drone_tracker.application.component.drone.api.exception;
 
+import com.jpg.drone_tracker.application.component.drone.service.DroneLoadingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,14 @@ public class DroneApiExceptionHandler {
     @ExceptionHandler(DroneSerialAlreadyExistsException.class)
     public ResponseEntity<ApiErrorResponse> handleDuplicateSerial(
             DroneSerialAlreadyExistsException ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(DroneLoadingException.class)
+    public ResponseEntity<ApiErrorResponse> handleLoadingException(
+            DroneLoadingException ex,
             HttpServletRequest request
     ) {
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI());

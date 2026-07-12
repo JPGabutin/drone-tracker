@@ -35,6 +35,7 @@ public class DroneController {
                 savedDrone.getSerialNumber(),
                 savedDrone.getModel(),
                 savedDrone.getWeightLimit(),
+                savedDrone.getCurrentLoadWeight(),
                 savedDrone.getBatteryCapacity(),
                 savedDrone.getState()
         );
