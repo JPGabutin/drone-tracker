@@ -3,6 +3,7 @@ package com.jpg.drone_tracker.application.component.drone.service;
 import com.jpg.drone_tracker.application.component.drone.domain.Drone;
 import com.jpg.drone_tracker.application.component.drone.domain.DroneMedication;
 import com.jpg.drone_tracker.application.component.drone.domain.DroneState;
+import com.jpg.drone_tracker.application.component.drone.repository.DroneMedicationRepository;
 import com.jpg.drone_tracker.application.component.drone.repository.DroneRepository;
 import com.jpg.drone_tracker.application.component.medication.domain.Medication;
 import com.jpg.drone_tracker.application.component.medication.repository.MedicationRepository;
@@ -15,13 +16,16 @@ public class DroneLoadingService {
     private static final int MIN_BATTERY_FOR_LOADING = 25;
 
     private final DroneRepository droneRepository;
+    private final DroneMedicationRepository droneMedicationRepository;
     private final MedicationRepository medicationRepository;
 
     public DroneLoadingService(
             DroneRepository droneRepository,
+            DroneMedicationRepository droneMedicationRepository,
             MedicationRepository medicationRepository
     ) {
         this.droneRepository = droneRepository;
+        this.droneMedicationRepository = droneMedicationRepository;
         this.medicationRepository = medicationRepository;
     }
 
@@ -42,9 +46,6 @@ public class DroneLoadingService {
                 .orElseThrow(() -> new DroneLoadingException("medication not found: " + command.medicationCode()));
 
         if (droneMedicationRepository.existsByDrone_IdAndMedication_Code(drone.getId(), medication.getCode())) {
-            if (drone.getState() == DroneState.IDLE) {
-                drone.setState(DroneState.LOADING);
-            }
             return droneRepository.save(drone);
         }
 
