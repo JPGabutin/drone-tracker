@@ -15,6 +15,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    defer-datasource-initialization: true
     open-in-view: false
     properties:
       hibernate:
