@@ -1,6 +1,7 @@
 package com.jpg.drone_tracker.application.component.drone.api.exception;
 
 import com.jpg.drone_tracker.application.component.drone.service.DroneLoadingException;
+import com.jpg.drone_tracker.application.component.drone.service.DroneDetailsException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,14 @@ public class DroneApiExceptionHandler {
             HttpServletRequest request
     ) {
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(DroneDetailsException.class)
+    public ResponseEntity<ApiErrorResponse> handleDetailsException(
+            DroneDetailsException ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
